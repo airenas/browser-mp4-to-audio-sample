@@ -1,0 +1,19 @@
+{
+  "name": "browser-mp4-to-audio-sample",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "browser-sync start --server --serveStatic 'node_modules' --files \"*.html, app/*.css, dist/*js\"",
+    "build": "browserify app/audio.js > dist/bundle.js"
+  },
+  "author": "",
+  "license": "BSD 3-Clause License",
+  "dependencies": {
+    "audiobuffer-to-wav": "^1.0.0",
+    "browser-sync": "^2.26.14",
+    "ffmpeg.js": "^4.2.9003",
+    "lamejs": "^1.2.0",
+    "pretty-bytes": "^5.6.0"
+  }
+}

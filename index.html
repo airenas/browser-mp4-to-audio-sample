@@ -1,0 +1,33 @@
+<html>
+
+<head>
+    <title>MP4 audio extractor tests</title>
+    <script src="dist/lame.min.js"></script>
+</head>
+
+<body>
+    <div style="border:solid 1px green;;margin: 5px;padding: 5px;">
+        <span>Video:</span>
+        <input id="input" type="file">
+        <audio controls id="audio"></audio>
+        <span>Len: </span><span id="spanLen"></span>
+    </div>
+    <div style="border:solid 1px green;;margin: 5px;padding: 5px;">
+        <button id="btnWAV">Extract WAV using AudioContext </button>
+        <button id="btnMP3">Extract and Convert to MP3</button>
+    </div>
+
+    <div style="border:solid 1px green;;margin: 5px;padding: 5px;">
+        <span>Audio:</span> <span style="width: 150px;margin-left: 50px;" id="progress"></span>
+        <audio controls id="result"></audio>
+        <span>Len: </span><span id="spanLenResult"></span>
+    </div>
+    <div style="border:solid 1px green;;margin: 5px;padding: 5px;">
+        <button id="btnSave">Save</button>
+    </div>
+
+    <script type="module" src="dist/bundle.js"></script>
+    <script src="app/wav2mp3.js></script>
+</body>
+
+</html>
