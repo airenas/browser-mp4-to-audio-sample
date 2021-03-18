@@ -106,3 +106,4 @@ dist
 Makefile.options
 package-lock.json
 test/**
+build/deploy/**
