@@ -22,6 +22,7 @@ function save(file) {
 }
 
 function setResultAudio(file) {
+    newFile = file;
     var audio = document.getElementById('result');
     if (file !== undefined) {
         audio.src = window.URL.createObjectURL(file);
@@ -44,8 +45,7 @@ function getBuffer(resolve) {
 
 function extractWAV() {
     working = true;
-    newFile = undefined;
-    setResultAudio(newFile);
+    setResultAudio(undefined);
     info("Starting")
     updateControls();
     var audioContext = new (window.AudioContext || window.webkitAudioContext)(({ sampleRate: sampleRate }));
@@ -67,25 +67,22 @@ function extractWAV() {
 
 function extractMP3() {
     working = true;
-    newFile = undefined;
-    setResultAudio(newFile);
+    setResultAudio(undefined);
     updateControls();
     audioMP3(file, info).then(
         (file) => {
-            newFile = file;
-            console.log(newFile);
-            setResultAudio(newFile);
+            console.log(file);
+            setResultAudio(file);
             working = false;
             updateControls()
             console.log("Done");
         },
         err => {
-            newFile = undefined;
-            setResultAudio(newFile);
+            setResultAudio(undefined);
             working = false;
             info(err)
             updateControls()
-            console.log(err);
+            console.error(err);
         }
     )
 }
@@ -112,25 +109,21 @@ const info = async (msg) => {
 
 function extractFFMPEG() {
     working = true;
-    newFile = undefined;
-    setResultAudio(newFile);
+    setResultAudio(undefined);
     updateControls();
     audioFFMPEG(file, info).then(
         (file) => {
-            newFile = file;
-            console.log(newFile);
-            setResultAudio(newFile);
+            setResultAudio(file);
             working = false;
             updateControls()
             console.log("Done");
         },
         err => {
-            newFile = undefined;
-            setResultAudio(newFile);
+            setResultAudio(undefined);
             working = false;
             info(err)
             updateControls()
-            console.log(err);
+            console.error(err);
         }
     )
 }
