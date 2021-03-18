@@ -19,7 +19,7 @@ $(dist_dir)/.build: | $(dist_dir)/html/dist
 
 build: $(dist_dir)/.build
 ########### DOCKER ##################################################################
-tag=airenas/$(service):$(version).$(commit_count)
+tag=$(USER)/$(service):$(version).$(commit_count)
 
 dbuild: build
 	docker build -t $(tag) ./

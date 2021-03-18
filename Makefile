@@ -20,7 +20,7 @@ dist/ffmpeg.min.js.map: node_modules/@ffmpeg/ffmpeg/dist/ffmpeg.min.js.map | dis
 
 .build.done: dist/bundle.js dist/lame.min.js dist/ffmpeg.min.js dist/ffmpeg.min.js.map
 	touch $@
-build: .build.done | dist
+compile: .build.done | dist
 #############################################################################
 serve:
 	npm start
