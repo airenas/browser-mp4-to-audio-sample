@@ -4,16 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "browser-sync start --server --serveStatic 'node_modules' --files \"*.html, app/*.css, dist/*js\"",
+    "start": "browser-sync start --config bs-config.js",
     "build": "browserify app/audio.js > dist/bundle.js"
   },
   "author": "",
   "license": "BSD 3-Clause License",
   "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.9.7",
     "audiobuffer-to-wav": "^1.0.0",
-    "browser-sync": "^2.26.14",
     "ffmpeg.js": "^4.2.9003",
     "lamejs": "^1.2.0",
     "pretty-bytes": "^5.6.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.14",
+    "browserify": "^17.0.0",
+    "@ffmpeg/core": "^0.8.5"
   }
 }
