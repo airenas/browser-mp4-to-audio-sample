@@ -5,7 +5,7 @@ deploy_dir?=
 dist:
 	mkdir -p $@
 
-dist/bundle.js: app/audio.js app/audio-ffmpeg.js app/audio-mp3.js | dist
+dist/bundle.js: app/audio.js app/audio-ffmpeg.js app/audio-ffmpeg2.js app/audio-mp3.js | dist
 	browserify app/audio.js > $@_
 	mv $@_ $@
 
