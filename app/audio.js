@@ -1,11 +1,10 @@
 const prettyBytes = require('./../node_modules/pretty-bytes/index.js');
-const audioBufferToWav = require('./../node_modules/audiobuffer-to-wav/index.js');
 const audioFFMPEG = require('./audio-ffmpeg.js');
 const audioMP3 = require('./audio-mp3.js');
+const audioWAV = require('./audio-wav.js');
 
 var file;
 var newFile;
-const sampleRate = 16000;
 var working = false;
 
 function save(file) {
@@ -32,44 +31,11 @@ function setResultAudio(file) {
 
 }
 
-function getBuffer(resolve) {
-    var reader = new FileReader();
-    reader.onload = function () {
-        var arrayBuffer = reader.result;
-        resolve(arrayBuffer);
-    }
-    info("Load file")
-    reader.readAsArrayBuffer(file);
-}
-
-
-function extractWAV() {
-    working = true;
-    setResultAudio(undefined);
-    info("Starting")
-    updateControls();
-    var audioContext = new (window.AudioContext || window.webkitAudioContext)(({ sampleRate: sampleRate }));
-    var videoFileAsBuffer = new Promise(getBuffer);
-    videoFileAsBuffer.then(function (data) {
-        console.log(data)
-        audioContext.decodeAudioData(data).then(function (decodedAudioData) {
-            console.log(decodedAudioData)
-            var wav = audioBufferToWav(decodedAudioData)
-            newFile = new Blob([wav], { type: "wav", name: "audio.wav" })
-            setResultAudio(newFile);
-            working = false;
-            updateControls()
-            info("Done")
-            console.log("Done");
-        });
-    });
-}
-
-function extractMP3() {
+function extractAudio(extractFunc) {
     working = true;
     setResultAudio(undefined);
     updateControls();
-    audioMP3(file, info).then(
+    extractFunc(file, info).then(
         (file) => {
             console.log(file);
             setResultAudio(file);
@@ -87,8 +53,19 @@ function extractMP3() {
     )
 }
 
+function extractWAV() {
+    extractAudio(audioWAV);
+}
+
+function extractMP3() {
+    extractAudio(audioMP3)
+}
+
+function extractFFMPEG() {
+    extractAudio(audioFFMPEG)
+}
+
 function loadFile() {
-    var reader = new FileReader();
     if (input.files) {
         file = input.files[0]
         console.log(file)
@@ -107,27 +84,6 @@ const info = async (msg) => {
     message.innerHTML = msg;
 }
 
-function extractFFMPEG() {
-    working = true;
-    setResultAudio(undefined);
-    updateControls();
-    audioFFMPEG(file, info).then(
-        (file) => {
-            setResultAudio(file);
-            working = false;
-            updateControls()
-            console.log("Done");
-        },
-        err => {
-            setResultAudio(undefined);
-            working = false;
-            info(err)
-            updateControls()
-            console.error(err);
-        }
-    )
-}
-
 function initEvent() {
     document.getElementById('btnWAV').onclick = extractWAV;
     document.getElementById('btnMP3').onclick = extractMP3;
@@ -135,8 +91,6 @@ function initEvent() {
     document.getElementById('input').onchange = loadFile;
     document.getElementById('btnFFMPEG').onclick = extractFFMPEG;
 }
-
-var working = false;
 
 function updateControls() {
     document.getElementById('btnWAV').disabled = working || !(file && file.size > 0);

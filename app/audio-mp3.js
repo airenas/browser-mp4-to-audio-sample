@@ -1,15 +1,6 @@
-const sampleRate = 16000;
+const GetFileData = require('./utils.js');
 
-function getBuffer(file) {
-    return new Promise(function (done, failed) {
-        var reader = new FileReader();
-        reader.onload = function () {
-            done(reader.result);
-        }
-        reader.onerror = err => failed(err);
-        reader.readAsArrayBuffer(file);
-    });
-}
+const sampleRate = 16000;
 
 function ExtractMP3(file, infoFunc) {
     const info = (msg) => {
@@ -18,7 +9,7 @@ function ExtractMP3(file, infoFunc) {
         }
     };
     return new Promise(function (done, failed) {
-        getBuffer(file).then(function (data) {
+        GetFileData(file).then(function (data) {
             info('File read')
             var audioContext = new (window.AudioContext || window.webkitAudioContext)(({ sampleRate: sampleRate }));
             console.log(data)
