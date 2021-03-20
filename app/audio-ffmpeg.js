@@ -21,10 +21,9 @@ function ExtractAudioFFMPEG(file, infoFunc) {
                     info('Loaded ffmpeg-core.js');
                     ffmpeg = ffmpegTmp;
                 }
-                const { name } = file;
-                ffmpeg.FS('writeFile', name, await fetchFile(file));
+                ffmpeg.FS('writeFile', 'in.mp4', await fetchFile(file));
                 info('Start copy audio');
-                await ffmpeg.run('-i', name, '-map', '0:a', '-acodec', 'copy', 'output.mp4');
+                await ffmpeg.run('-i', 'in.mp4', '-map', '0:a', '-acodec', 'copy', 'output.mp4');
                 info('Preparing file');
                 const data = ffmpeg.FS('readFile', 'output.mp4');
                 newFile = new Blob([data.buffer], { type: 'audio/mp4', name: "audio.mp4" })
